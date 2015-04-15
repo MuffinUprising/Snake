@@ -1,4 +1,4 @@
-package com.clara;
+package casey;
 
 import java.awt.Point;
 import java.util.LinkedList;
@@ -129,11 +129,15 @@ public class Snake {
 		if (currentHeading == DIRECTION_RIGHT && lastHeading == DIRECTION_LEFT) {
 			currentHeading = DIRECTION_LEFT; //keep going the same way
 		}
+		if (hitWall == true) {
+			warpWalls();
+
+		}
 		
 		//Did you hit the wall, snake? 
 		//Or eat your tail? Don't move. 
 
-		if (hitWall == true || ateTail == true) {
+		if (ateTail == true) {
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
 		}
@@ -178,8 +182,8 @@ public class Snake {
 
 		//Does this make snake hit the wall?
 		if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
-			hitWall = true;	
-			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+			hitWall = true;
+//			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
 		}
 
@@ -282,12 +286,33 @@ public class Snake {
 	}
 
 	public boolean isGameOver() {
-		if (hitWall == true || ateTail == true){
+		if (ateTail == true){
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return true;
 			
 		}
 		return false;
+	}
+
+	public void warpWalls() {
+		if (snakeHeadX >= maxX) {
+			snakeHeadX = -1;
+
+		}
+		else if (snakeHeadY >= maxY) {
+			snakeHeadY = -1;
+
+		}
+		else if (snakeHeadX < 0) {
+			snakeHeadX = maxX;
+
+		}
+		else if (snakeHeadY < 0) {
+			snakeHeadY = maxY;
+
+		}
+		return;
+
 	}
 
 

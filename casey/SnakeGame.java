@@ -1,4 +1,4 @@
-package com.clara;
+package casey;
 
 import java.util.Timer;
 
@@ -32,7 +32,7 @@ public class SnakeGame {
 	private static int gameStage = BEFORE_GAME;  //use this to figure out what should be happening. 
 	//Other classes like Snake and DrawSnakeGamePanel will need to query this, and change it's value
 
-	protected static long clockInterval = 500; //controls game speed
+	protected static long clockInterval = 300; //controls game speed
 	//Every time the clock ticks, the snake moves
 	//This is the time between clock ticks, in milliseconds
 	//1000 milliseconds = 1  second.
