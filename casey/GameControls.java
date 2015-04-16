@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 public class GameControls implements KeyListener{
 	
 	Snake snake;
+
+
 	
 	GameControls(Snake s){
 		this.snake = s;
@@ -45,19 +47,19 @@ public class GameControls implements KeyListener{
 
 		
 		if (ev.getKeyCode() == KeyEvent.VK_DOWN) {
-			//System.out.println("snake down");
+			SoundPlayer.playSnakeMove();
 			snake.snakeDown();
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_UP) {
-			//System.out.println("snake up");
+			SoundPlayer.playSnakeMove();
 			snake.snakeUp();
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_LEFT) {
-			//System.out.println("snake left");
+			SoundPlayer.playSnakeMove();
 			snake.snakeLeft();
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_RIGHT) {
-			//System.out.println("snake right");
+			SoundPlayer.playSnakeMove();
 			snake.snakeRight();
 		}
 
@@ -71,13 +73,25 @@ public class GameControls implements KeyListener{
 
 
 	@Override
-	public void keyTyped(KeyEvent ev) {
+	public void keyTyped(KeyEvent ev){
 		//keyTyped events are for user typing letters on the keyboard, anything that makes a character display on the screen
 		char keyPressed = ev.getKeyChar();
 		char q = 'q';
+		char h = 'h'; //needs setup for hard mode
+		char w = 'w'; //warp walls option
+
 		if( keyPressed == q){
 			System.exit(0);    //quit if user presses the q key.
 		}
+		// Hard Mode
+		// not sure if can be implemented here
+		else if( keyPressed == h){
+			SnakeGame.setHardMode(true);
+		}
+		else if( keyPressed == w){
+			SnakeGame.setWarpWallsOn(true);
+		}
+
 	}
 
 }

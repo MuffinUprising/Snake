@@ -32,17 +32,20 @@ public class GameClock extends TimerTask {
 				snake.moveSnake();
 				if (snake.didEatKibble(kibble) == true) {		
 					//tell kibble to update
+					SoundPlayer.playKibbleChomp();
 					kibble.moveKibble(snake);
 					Score.increaseScore();
 				}
 				break;
 			}
 			case SnakeGame.GAME_OVER: {
-				this.cancel();		//Stop the Timer	
+				this.cancel();		//Stop the Timer
+				SoundPlayer.playGameOver();
 				break;	
 			}
 			case SnakeGame.GAME_WON: {
 				this.cancel();   //stop timer
+				SoundPlayer.playWinner();
 				break;
 			}
 			

@@ -2,6 +2,8 @@ package casey;
 
 import java.awt.Point;
 import java.util.LinkedList;
+import java.applet.*;
+import java.net.*;
 
 public class Snake {
 
@@ -30,6 +32,8 @@ public class Snake {
 
 	private int maxX, maxY, squareSize;  
 	private int snakeHeadX, snakeHeadY; //store coordinates of head - first segment
+
+
 
 	public Snake(int maxX, int maxY, int squareSize){
 		this.maxX = maxX;
@@ -129,10 +133,6 @@ public class Snake {
 		if (currentHeading == DIRECTION_RIGHT && lastHeading == DIRECTION_LEFT) {
 			currentHeading = DIRECTION_LEFT; //keep going the same way
 		}
-		if (hitWall == true) {
-			warpWalls();
-
-		}
 		
 		//Did you hit the wall, snake? 
 		//Or eat your tail? Don't move. 
@@ -182,9 +182,14 @@ public class Snake {
 
 		//Does this make snake hit the wall?
 		if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
-			hitWall = true;
-//			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
-			return;
+			if (SnakeGame.warpWallsOn) {
+				warpWalls();
+
+			} else {
+				hitWall = true;
+				SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+				return;
+			}
 		}
 
 		//Does this make the snake eat its tail?
@@ -222,10 +227,7 @@ public class Snake {
 
 	}
 
-	protected boolean didHitWall(){
-		return hitWall;
-
-	}
+	protected boolean didHitWall(){ return hitWall; }
 
 	protected boolean didEatTail(){
 		return ateTail;
@@ -242,9 +244,43 @@ public class Snake {
 		//Is this kibble in the snake? It should be in the same square as the snake's head
 		if (kibble.getKibbleX() == snakeHeadX && kibble.getKibbleY() == snakeHeadY){
 			justAteMustGrowThisMuch += growthIncrement;
+			//eatKibbleSoundEffect();
 			return true;
 		}
 		return false;
+	}
+
+	//method to play sound effect when kibble is eaten
+	public void eatKibbleSoundEffect() {
+		try {
+			AudioClip clip = Applet.newAudioClip(new URL(null)); //add audio clip here <---
+			clip.play();
+
+		} catch (MalformedURLException murle) {
+			System.out.println(murle);
+		}
+	}
+
+	public void warpWalls() {
+
+		hitWall = false;
+
+		if (snakeHeadX >= maxX) {
+			snakeHeadX = 0;
+
+		} else if (snakeHeadY >= maxY) {
+			snakeHeadY = 0;
+
+		} else if (snakeHeadX < 0) {
+			snakeHeadX = maxX - 1;
+
+		} else if (snakeHeadY < 0) {
+			snakeHeadY = maxY - 1;
+
+		}
+
+
+
 	}
 
 	public String toString(){
@@ -292,27 +328,6 @@ public class Snake {
 			
 		}
 		return false;
-	}
-
-	public void warpWalls() {
-		if (snakeHeadX >= maxX) {
-			snakeHeadX = -1;
-
-		}
-		else if (snakeHeadY >= maxY) {
-			snakeHeadY = -1;
-
-		}
-		else if (snakeHeadX < 0) {
-			snakeHeadX = maxX;
-
-		}
-		else if (snakeHeadY < 0) {
-			snakeHeadY = maxY;
-
-		}
-		return;
-
 	}
 
 

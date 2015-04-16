@@ -21,6 +21,13 @@ public class SnakeGame {
 
 	protected static Score score;
 
+	//boolean variables
+	public static boolean soundOn = true;
+	public static boolean warpWallsOn = false;
+	public static boolean hardMode = false; 	// for implementation of Hard Mode
+	// possible options include faster clock time,
+	// exponential growth (?), maze walls
+
 	static final int BEFORE_GAME = 1;
 	static final int DURING_GAME = 2;
 	static final int GAME_OVER = 3;
@@ -32,16 +39,19 @@ public class SnakeGame {
 	private static int gameStage = BEFORE_GAME;  //use this to figure out what should be happening. 
 	//Other classes like Snake and DrawSnakeGamePanel will need to query this, and change it's value
 
-	protected static long clockInterval = 300; //controls game speed
+	protected static long clockInterval = 500; //controls game speed
 	//Every time the clock ticks, the snake moves
 	//This is the time between clock ticks, in milliseconds
 	//1000 milliseconds = 1  second.
 
 	static JFrame snakeFrame;
 	static DrawSnakeGamePanel snakePanel;
+	static SoundPlayer soundPlayer; //for implementation of sound
+
 	//Framework for this class adapted from the Java Swing Tutorial, FrameDemo and Custom Painting Demo. You should find them useful too.
 	//http://docs.oracle.com/javase/tutorial/displayCode.html?code=http://docs.oracle.com/javase/tutorial/uiswing/examples/components/FrameDemoProject/src/components/FrameDemo.java
 	//http://docs.oracle.com/javase/tutorial/uiswing/painting/step2.html
+
 
 	private static void createAndShowGUI() {
 		//Create and set up the window.
@@ -59,6 +69,8 @@ public class SnakeGame {
 
 		snakeFrame.add(snakePanel);
 		snakePanel.addKeyListener(new GameControls(snake));
+
+		soundPlayer = new SoundPlayer(); // init sound player
 
 		setGameStage(BEFORE_GAME);
 
@@ -94,7 +106,11 @@ public class SnakeGame {
 		});
 	}
 
+	public static void setHardMode(boolean hardMode) {
+			SnakeGame.hardMode = hardMode;
+			clockInterval = 200;
 
+	}
 
 	public static int getGameStage() {
 		return gameStage;
@@ -110,4 +126,14 @@ public class SnakeGame {
 	public static void setGameStage(int gameStage) {
 		SnakeGame.gameStage = gameStage;
 	}
+
+	public static void setSoundsOn(boolean soundsOn) { SnakeGame.soundOn = soundsOn; }
+
+	public static void setWarpWallsOn(boolean warpWallsOn) {
+		SnakeGame.warpWallsOn = warpWallsOn;
+	}
+
+
+
+
 }
