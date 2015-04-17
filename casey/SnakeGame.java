@@ -93,6 +93,7 @@ public class SnakeGame {
 		kibble = new Kibble(snake);
 		score = new Score();
 		setSoundsOn(true);
+//		displayOptionsGUI();
 
 		gameStage = BEFORE_GAME;
 	}
@@ -139,9 +140,7 @@ public class SnakeGame {
 
 	public static void setSoundsOn(boolean soundsOn) { SnakeGame.soundOn = soundsOn; }
 
-	public static void setWarpWallsOn(boolean warpWallsOn) {
-		SnakeGame.warpWallsOn = warpWallsOn;
-	}
+	public static void setWarpWallsOn(boolean warpWallsOn) { SnakeGame.warpWallsOn = warpWallsOn; }
 
 	public static void setGameSpeed(int msPerTick) {
 		clockInterval = msPerTick;
@@ -149,7 +148,7 @@ public class SnakeGame {
 	}
 
 	protected static void displayOptionsGUI(){
-		optionsPanel = optionsGUI.rootPanel;
+
 		gameStage = PAUSE_MENU;
 		optionsPanel.setFocusable(true);
 		optionsPanel.setOpaque(true);

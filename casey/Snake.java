@@ -14,6 +14,7 @@ public class Snake {
 
 	private boolean hitWall = false;
 	private boolean ateTail = false;
+	public boolean wonGame = false;
 
 	private int snakeSquares[][];  //represents all of the squares on the screen
 	//NOT pixels!
@@ -245,9 +246,9 @@ public class Snake {
 		if (kibble.getKibbleX() == snakeHeadX && kibble.getKibbleY() == snakeHeadY){
 			justAteMustGrowThisMuch += growthIncrement;
 			SoundPlayer.playKibbleChomp();
-			return true;
+			return wonGame =  true;
 		}
-		return false;
+		return wonGame = false;
 	}
 
 

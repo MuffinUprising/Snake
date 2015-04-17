@@ -13,7 +13,6 @@ public class OptionsGUI extends JFrame{
     private JLabel optionsLabel;
     public JPanel rootPanel;
     private JCheckBox warpWallsCheckBox;
-    private JCheckBox hardModeCheckBox;
     private JCheckBox soundsCheckBox;
     private JButton quitButton;
     private JComboBox speedComboBox;
@@ -21,7 +20,6 @@ public class OptionsGUI extends JFrame{
 
 
     protected OptionsGUI() {
-
 
         //warp walls check box
         warpWallsCheckBox.addItemListener(new ItemListener() {
@@ -32,20 +30,9 @@ public class OptionsGUI extends JFrame{
                 } else {
                     SnakeGame.setWarpWallsOn(false);
                 }
+            }
+        });
 
-            }
-        });
-        //hard mode check box
-        hardModeCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(hardModeCheckBox.isSelected()) {
-                    SnakeGame.setHardMode(true);
-                } else {
-                    SnakeGame.setHardMode(false);
-                }
-            }
-        });
         //sounds checkbox
         soundsCheckBox.addItemListener(new ItemListener() {
             @Override
@@ -62,7 +49,6 @@ public class OptionsGUI extends JFrame{
         speedComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-
 
             }
         });

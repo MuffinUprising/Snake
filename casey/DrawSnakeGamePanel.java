@@ -99,7 +99,9 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displayGame(Graphics g) {
 		displayGameGrid(g);
 		displaySnake(g);
-		displayKibble(g);	
+		displayKibble(g);
+
+
 	}
 
 	private void displayGameGrid(Graphics g) {
@@ -109,8 +111,10 @@ public class DrawSnakeGamePanel extends JPanel {
 		int squareSize = SnakeGame.squareSize;
 		
 		g.clearRect(0, 0, maxX, maxY);
+		g.fillRect(0,0, maxX, maxY);
+		g.setColor(Color.BLACK);
 
-		g.setColor(Color.BLUE);
+		g.setColor(Color.DARK_GRAY);
 
 		//Draw grid - horizontal lines
 		for (int y=0; y <= maxY ; y+= squareSize){			
@@ -125,12 +129,12 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displayKibble(Graphics g) {
 
 		//Draw the kibble in green
-		g.setColor(Color.RED);
+		g.setColor(Color.CYAN);
 
 		int x = kibble.getKibbleX() * SnakeGame.squareSize;
 		int y = kibble.getKibbleY() * SnakeGame.squareSize;
 
-		g.fillRect(x+1, y+1, SnakeGame.squareSize-2, SnakeGame.squareSize-2);
+		g.fillOval(x+10, y+10, SnakeGame.squareSize-20, SnakeGame.squareSize-20);
 		
 	}
 
@@ -139,22 +143,22 @@ public class DrawSnakeGamePanel extends JPanel {
 		LinkedList<Point> coordinates = snake.segmentsToDraw();
 		
 		//Draw head in dark grey
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(Color.RED);
 		Point head = coordinates.pop();
-		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+		g.fillOval((int)head.getX(), (int)head.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
 		
 		//Draw rest of snake in gray
-		g.setColor(Color.GRAY);
+		g.setColor(Color.ORANGE);
 		for (Point p : coordinates) {
-			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+			g.fillRect((int)p.getX()+10, (int)p.getY()+10, SnakeGame.squareSize-20, SnakeGame.squareSize-20);
 		}
 
 	}
 
 	private void displayInstructions(Graphics g) {
         g.drawString("Press any key to begin!",100,200);
-		g.drawString("Press w to turn on warp walls. (Easier!)",150, 250);
-		g.drawString("Press h to activate Hard Mode! (Harder!)", 150, 300);
+		g.drawString("Press w to turn on warp walls. (Easier!)",100, 250);
+		g.drawString("Press h to activate Hard Mode! (Harder!)", 100, 300);
         g.drawString("Press q to quit the game",100,350);
     	}
 	

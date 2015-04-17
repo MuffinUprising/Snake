@@ -87,9 +87,13 @@ public class GameControls implements KeyListener{
 		char keyPressed = ev.getKeyChar();
 		char q = 'q';
 		char m = 'm';
+		char w = 'w';
 
 		if( keyPressed == q){
 			System.exit(0);    //quit if user presses the q key.
+		}
+		if( keyPressed == w){
+			SnakeGame.setWarpWallsOn(true);
 		}
 
 
