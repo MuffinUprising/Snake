@@ -42,23 +42,27 @@ public class DrawSnakeGamePanel extends JPanel {
         gameStage = SnakeGame.getGameStage();
         
         switch (gameStage) {
-        case 1: {
-        	displayInstructions(g);
-        	break;
-        } 
-        case 2 : {
-        	displayGame(g);
-        	break;
-        }
-        case 3: {
-        	displayGameOver(g);
-        	break;
-        }
-        case 4: {
-        	displayGameWon(g);
-        	break;
-        }
-        }
+			case 1: {
+				displayInstructions(g);
+				break;
+			}
+			case 2: {
+				displayGame(g);
+				break;
+			}
+			case 3: {
+				displayGameOver(g);
+				break;
+			}
+			case 4: {
+				displayGameWon(g);
+				break;
+			}
+			case 5: {
+				SnakeGame.displayOptionsGUI();
+				break;
+			}
+		}
         
         
         

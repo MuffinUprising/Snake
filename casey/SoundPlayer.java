@@ -19,11 +19,11 @@ public class SoundPlayer {
     public SoundPlayer(){
         try{
 
-            //need to add game sounds to GitHub ~~ LINKS CURRENTLY DEAD ~~~
-            URL kibbleChompUrl = new URL("https://raw.githubusercontent.com/MuffinUpriding/Snake/master/kibbleChomp.wav");
-            URL snakeMoveUrl = new URL("https://raw.githubusercontent.com/MuffinUpriding/Snake/master/snakeMove.wav");
-            URL gameOverUrl = new URL("https://raw.githubusercontent.com/MuffinUpriding/Snake/master/gameOver.wav");
-            URL winnerUrl = new URL("https://raw.githubusercontent.com/MuffinUpriding/Snake/master/winner.wav");
+            //need to add game sounds to GitHub ~~ STILL NEED WINNER SOUND ~~
+            URL kibbleChompUrl = new URL("https://github.com/MuffinUprising/Snake/blob/master/casey/kibbleChomp.wav");
+            URL snakeMoveUrl = new URL("https://github.com/MuffinUprising/Snake/blob/master/casey/snakeMove.wav");
+            URL gameOverUrl = new URL("https://github.com/MuffinUprising/Snake/blob/master/casey/gameOver.wav");
+            URL winnerUrl = new URL("https://github.com/MuffinUprising/Snake/blob/master/casey/winner.wav");
 
             kibbleChomp = Applet.newAudioClip(kibbleChompUrl);
             snakeMove = Applet.newAudioClip(snakeMoveUrl);

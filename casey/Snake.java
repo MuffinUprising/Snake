@@ -244,22 +244,12 @@ public class Snake {
 		//Is this kibble in the snake? It should be in the same square as the snake's head
 		if (kibble.getKibbleX() == snakeHeadX && kibble.getKibbleY() == snakeHeadY){
 			justAteMustGrowThisMuch += growthIncrement;
-			//eatKibbleSoundEffect();
+			SoundPlayer.playKibbleChomp();
 			return true;
 		}
 		return false;
 	}
 
-	//method to play sound effect when kibble is eaten
-	public void eatKibbleSoundEffect() {
-		try {
-			AudioClip clip = Applet.newAudioClip(new URL(null)); //add audio clip here <---
-			clip.play();
-
-		} catch (MalformedURLException murle) {
-			System.out.println(murle);
-		}
-	}
 
 	public void warpWalls() {
 
@@ -323,7 +313,7 @@ public class Snake {
 
 	public boolean isGameOver() {
 		if (ateTail == true){
-			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+			SnakeGame.gameEnded();
 			return true;
 			
 		}

@@ -28,10 +28,13 @@ public class SnakeGame {
 	// possible options include faster clock time,
 	// exponential growth (?), maze walls
 
+
 	static final int BEFORE_GAME = 1;
 	static final int DURING_GAME = 2;
 	static final int GAME_OVER = 3;
-	static final int GAME_WON = 4;   //The values are not important. The important thing is to use the constants 
+	static final int GAME_WON = 4;
+	static final int PAUSE_MENU = 5;
+	//The values are not important. The important thing is to use the constants
 	//instead of the values so you are clear what you are setting. Easy to forget what number is Game over vs. game won
 	//Using constant names instead makes it easier to keep it straight. Refer to these variables 
 	//using statements such as SnakeGame.GAME_OVER 
@@ -45,6 +48,8 @@ public class SnakeGame {
 	//1000 milliseconds = 1  second.
 
 	static JFrame snakeFrame;
+	static JPanel optionsPanel;
+	static OptionsGUI optionsGUI;
 	static DrawSnakeGamePanel snakePanel;
 	static SoundPlayer soundPlayer; //for implementation of sound
 
@@ -67,14 +72,16 @@ public class SnakeGame {
 		snakePanel.setFocusable(true);
 		snakePanel.requestFocusInWindow(); //required to give this component the focus so it can generate KeyEvents
 
+
 		snakeFrame.add(snakePanel);
 		snakePanel.addKeyListener(new GameControls(snake));
 
-		soundPlayer = new SoundPlayer(); // init sound player
+		soundPlayer = new SoundPlayer(); //sound player
+		optionsGUI = new OptionsGUI();  //options gui
+		optionsPanel = new JPanel();
 
 		setGameStage(BEFORE_GAME);
 
-		snakeFrame.setVisible(true);
 	}
 
 	private static void initializeGame() {
@@ -85,6 +92,7 @@ public class SnakeGame {
 		snake = new Snake(xSquares, ySquares, squareSize);
 		kibble = new Kibble(snake);
 		score = new Score();
+		setSoundsOn(true);
 
 		gameStage = BEFORE_GAME;
 	}
@@ -93,6 +101,7 @@ public class SnakeGame {
 		Timer timer = new Timer();
 		GameClock clockTick = new GameClock(snake, kibble, score, snakePanel);
 		timer.scheduleAtFixedRate(clockTick, 0 , clockInterval);
+
 	}
 
 	public static void main(String[] args) {
@@ -107,8 +116,9 @@ public class SnakeGame {
 	}
 
 	public static void setHardMode(boolean hardMode) {
-			SnakeGame.hardMode = hardMode;
-			clockInterval = 200;
+		SnakeGame.hardMode = hardMode;
+		SnakeGame.setGameSpeed(200);
+		return;
 
 	}
 
@@ -133,7 +143,21 @@ public class SnakeGame {
 		SnakeGame.warpWallsOn = warpWallsOn;
 	}
 
+	public static void setGameSpeed(int msPerTick) {
+		clockInterval = msPerTick;
+		return;
+	}
 
+	protected static void displayOptionsGUI(){
+		optionsPanel = optionsGUI.rootPanel;
+		gameStage = PAUSE_MENU;
+		optionsPanel.setFocusable(true);
+		optionsPanel.setOpaque(true);
+		optionsPanel.requestFocusInWindow();
 
+		snakeFrame.add(optionsPanel);
+		snakeFrame.validate();
+		snakeFrame.repaint();
 
+	}
 }
