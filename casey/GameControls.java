@@ -101,6 +101,7 @@ public class GameControls implements KeyListener{
 		if( keyPressed == q){
 			System.exit(0);    //quit if user presses the q key.
 		}
+		//turn warp walls on
 		if( keyPressed == w){
 			SnakeGame.setWarpWallsOn(true);
 		}

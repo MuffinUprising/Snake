@@ -251,6 +251,7 @@ public class Snake {
 	}
 
 
+	//if statements for warp walls
 	public void warpWalls() {
 
 		hitWall = false;

@@ -19,7 +19,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Kibble kibble;
 	private Score score;
 
-	Font abadi = new Font("Abadi MT Condensed Extra Bold", Font.PLAIN, 24);
+	Font abadi = new Font("Abadi MT Condensed Extra Bold.ttf", Font.BOLD, 24);
 
 	
 	DrawSnakeGamePanel(Snake s, Kibble k, Score sc){
@@ -71,13 +71,16 @@ public class DrawSnakeGamePanel extends JPanel {
     }
 
 	private void displayGameWon(Graphics g) {
-		// TODO Replace this with something really special!
+		// Could never get game to finish when won
+		// snake never eats last kibble
 		g.clearRect(0,0,501,501);
 		g.fillRect(0, 0, 501, 501);
 		g.drawString("YOU WON SNAKE!!!", 150, 150);
 		
 	}
 	private void displayGameOver(Graphics g) {
+
+		//display game grid for background
 		int maxX = SnakeGame.xPixelMaxDimension;
 		int maxY= SnakeGame.yPixelMaxDimension;
 		int squareSize = SnakeGame.squareSize;
@@ -113,9 +116,6 @@ public class DrawSnakeGamePanel extends JPanel {
 		g2.drawString("press s to play again", 80, 300);
 		g2.drawString("Press w to turn on warp walls.",80, 350);
 		g2.drawString("Press q to quit the game",80,400);
-
-
-    			
 	}
 
 	private void displayGame(Graphics g) {
@@ -177,6 +177,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 	private void displayInstructions(Graphics g) {
+		//display game grid for background
 		int maxX = SnakeGame.xPixelMaxDimension;
 		int maxY= SnakeGame.yPixelMaxDimension;
 		int squareSize = SnakeGame.squareSize;
@@ -211,11 +212,6 @@ public class DrawSnakeGamePanel extends JPanel {
 		SnakeGame.optionsPanel.setVisible(true);
 		SnakeGame.optionsPanel.setFocusable(true);
 		SnakeGame.optionsPanel.requestFocusInWindow();
-
 	}
-
-
-	
-    
 }
 
