@@ -2,8 +2,9 @@ package casey;
 
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.Enumeration;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /** This class responsible for displaying the graphics, so the snake, grid, kibble, instruction text and high score
  * 
@@ -17,6 +18,9 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Snake snake;
 	private Kibble kibble;
 	private Score score;
+
+	Font abadi = new Font("Abadi MT Condensed Extra Bold", Font.PLAIN, 24);
+
 	
 	DrawSnakeGamePanel(Snake s, Kibble k, Score sc){
 		this.snake = s;
@@ -37,6 +41,7 @@ public class DrawSnakeGamePanel extends JPanel {
          * 2. During game
          * 3. Game lost aka game over
          * 4. or, game won
+         * 5. pause game
          */
 
         gameStage = SnakeGame.getGameStage();
@@ -59,39 +64,56 @@ public class DrawSnakeGamePanel extends JPanel {
 				break;
 			}
 			case 5: {
-				SnakeGame.displayOptionsGUI();
+				displayOptionsGUI();
 				break;
 			}
 		}
-        
-        
-        
     }
 
 	private void displayGameWon(Graphics g) {
 		// TODO Replace this with something really special!
-		g.clearRect(100,100,350,350);
+		g.clearRect(0,0,501,501);
+		g.fillRect(0, 0, 501, 501);
 		g.drawString("YOU WON SNAKE!!!", 150, 150);
 		
 	}
 	private void displayGameOver(Graphics g) {
+		int maxX = SnakeGame.xPixelMaxDimension;
+		int maxY= SnakeGame.yPixelMaxDimension;
+		int squareSize = SnakeGame.squareSize;
 
-		g.clearRect(0,0,550,550);
-		g.drawString("GAME OVER", 150, 100);
-		
+		//color for bg and grid
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,501,501);
+		g.setColor(Color.DARK_GRAY);
+
+		//Draw grid - horizontal lines
+		for (int y=0; y <= maxY ; y+= squareSize){
+			g.drawLine(0, y, maxX, y);
+		}
+		//Draw grid - vertical lines
+		for (int x=0; x <= maxX ; x+= squareSize){
+			g.drawLine(x, 0, x, maxY);
+		}
+
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(Color.WHITE);
+		g2.setFont(abadi);
+
+		g2.drawString("GAME OVER", 177, 100);
+
 		String textScore = score.getStringScore();
 		String textHighScore = score.getStringHighScore();
 		String newHighScore = score.newHighScore();
 		
-		g.drawString("SCORE = " + textScore, 150, 150);
+		g2.drawString("SCORE = " + textScore, 80, 150);
+		g2.drawString("HIGH SCORE = " + textHighScore, 80, 200);
+		g2.drawString(newHighScore, 80, 250);
 		
-		g.drawString("HIGH SCORE = " + textHighScore, 150, 200);
-		g.drawString(newHighScore, 150, 250);
-		
-		g.drawString("press a key to play again", 150, 300);
-		g.drawString("Press w to turn on warp walls.",150, 350);
-		g.drawString("Press h to activate Hard Mode!", 150, 400);
-		g.drawString("Press q to quit the game",150,450);
+		g2.drawString("press s to play again", 80, 300);
+		g2.drawString("Press w to turn on warp walls.",80, 350);
+		g2.drawString("Press q to quit the game",80,400);
+
 
     			
 	}
@@ -100,7 +122,6 @@ public class DrawSnakeGamePanel extends JPanel {
 		displayGameGrid(g);
 		displaySnake(g);
 		displayKibble(g);
-
 
 	}
 
@@ -111,7 +132,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		int squareSize = SnakeGame.squareSize;
 		
 		g.clearRect(0, 0, maxX, maxY);
-		g.fillRect(0,0, maxX, maxY);
+		g.fillRect(0, 0, maxX, maxY);
 		g.setColor(Color.BLACK);
 
 		g.setColor(Color.DARK_GRAY);
@@ -128,13 +149,13 @@ public class DrawSnakeGamePanel extends JPanel {
 
 	private void displayKibble(Graphics g) {
 
-		//Draw the kibble in green
+		//Draw the kibble in cyan and as a circle
 		g.setColor(Color.CYAN);
 
 		int x = kibble.getKibbleX() * SnakeGame.squareSize;
 		int y = kibble.getKibbleY() * SnakeGame.squareSize;
 
-		g.fillOval(x+10, y+10, SnakeGame.squareSize-20, SnakeGame.squareSize-20);
+		g.fillOval(x + 10, y + 10, SnakeGame.squareSize - 20, SnakeGame.squareSize - 20);
 		
 	}
 
@@ -142,12 +163,12 @@ public class DrawSnakeGamePanel extends JPanel {
 
 		LinkedList<Point> coordinates = snake.segmentsToDraw();
 		
-		//Draw head in dark grey
+		//Draw head in dark red as a circle
 		g.setColor(Color.RED);
 		Point head = coordinates.pop();
-		g.fillOval((int)head.getX(), (int)head.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+		g.fillOval((int)head.getX()+5, (int)head.getY()+5, SnakeGame.squareSize-10, SnakeGame.squareSize-10);
 		
-		//Draw rest of snake in gray
+		//Draw rest of snake in orange as smaller squares
 		g.setColor(Color.ORANGE);
 		for (Point p : coordinates) {
 			g.fillRect((int)p.getX()+10, (int)p.getY()+10, SnakeGame.squareSize-20, SnakeGame.squareSize-20);
@@ -156,11 +177,44 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 	private void displayInstructions(Graphics g) {
-        g.drawString("Press any key to begin!",100,200);
-		g.drawString("Press w to turn on warp walls. (Easier!)",100, 250);
-		g.drawString("Press h to activate Hard Mode! (Harder!)", 100, 300);
-        g.drawString("Press q to quit the game",100,350);
-    	}
+		int maxX = SnakeGame.xPixelMaxDimension;
+		int maxY= SnakeGame.yPixelMaxDimension;
+		int squareSize = SnakeGame.squareSize;
+
+		//color for bg and grid
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,501,501);
+		g.setColor(Color.DARK_GRAY);
+
+		//Draw grid - horizontal lines
+		for (int y=0; y <= maxY ; y+= squareSize){
+			g.drawLine(0, y, maxX, y);
+		}
+		//Draw grid - vertical lines
+		for (int x=0; x <= maxX ; x+= squareSize){
+			g.drawLine(x, 0, x, maxY);
+		}
+
+		//color for text
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(Color.WHITE);
+		g2.setFont(abadi);
+
+		g2.drawString("SNAKE", 210, 100);
+        g2.drawString("Press s to begin",100,200);
+		g2.drawString("Press w to turn on warp walls", 100, 250);
+        g2.drawString("Press q to quit the game",100,300);
+	}
+
+	//attempt to display the options GUI once again
+	protected static void displayOptionsGUI(){
+		SnakeGame.optionsPanel.setVisible(true);
+		SnakeGame.optionsPanel.setFocusable(true);
+		SnakeGame.optionsPanel.requestFocusInWindow();
+
+	}
+
+
 	
     
 }

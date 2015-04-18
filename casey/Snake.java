@@ -27,7 +27,7 @@ public class Snake {
 	
 	private int snakeSize;   //size of snake - how many segments?
 
-	private int growthIncrement = 2; //how many squares the snake grows after it eats a kibble
+	private int growthIncrement = 1; //how many squares the snake grows after it eats a kibble
 
 	private int justAteMustGrowThisMuch = 0;
 
@@ -245,7 +245,6 @@ public class Snake {
 		//Is this kibble in the snake? It should be in the same square as the snake's head
 		if (kibble.getKibbleX() == snakeHeadX && kibble.getKibbleY() == snakeHeadY){
 			justAteMustGrowThisMuch += growthIncrement;
-			SoundPlayer.playKibbleChomp();
 			return wonGame =  true;
 		}
 		return wonGame = false;

@@ -32,9 +32,10 @@ public class GameClock extends TimerTask {
 				snake.moveSnake();
 				if (snake.didEatKibble(kibble) == true) {		
 					//tell kibble to update
-					SoundPlayer.playKibbleChomp();
+					SoundPlayer.playSnakeMove();
 					kibble.moveKibble(snake);
 					Score.increaseScore();
+
 				}
 				break;
 			}
@@ -53,8 +54,6 @@ public class GameClock extends TimerTask {
 				this.cancel();
 				break;
 			}
-			
-		
 		}
 				
 		gamePanel.repaint();		//In every circumstance, must update screen

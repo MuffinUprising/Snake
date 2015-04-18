@@ -22,7 +22,6 @@ public class Score {
 	}
 	
 	public static void increaseScore() {
-		
 		score = score + increment;
 		
 	}

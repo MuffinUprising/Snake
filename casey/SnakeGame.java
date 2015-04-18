@@ -1,5 +1,6 @@
 package casey;
 
+import java.awt.*;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -16,28 +17,19 @@ public class SnakeGame {
 	public final static int squareSize = 50;
 
 	protected static Snake snake ;
-
 	protected static Kibble kibble;
-
 	protected static Score score;
 
 	//boolean variables
 	public static boolean soundOn = true;
 	public static boolean warpWallsOn = false;
-	public static boolean hardMode = false; 	// for implementation of Hard Mode
-	// possible options include faster clock time,
-	// exponential growth (?), maze walls
 
-
+	//game state variables
 	static final int BEFORE_GAME = 1;
 	static final int DURING_GAME = 2;
 	static final int GAME_OVER = 3;
 	static final int GAME_WON = 4;
 	static final int PAUSE_MENU = 5;
-	//The values are not important. The important thing is to use the constants
-	//instead of the values so you are clear what you are setting. Easy to forget what number is Game over vs. game won
-	//Using constant names instead makes it easier to keep it straight. Refer to these variables 
-	//using statements such as SnakeGame.GAME_OVER 
 
 	private static int gameStage = BEFORE_GAME;  //use this to figure out what should be happening. 
 	//Other classes like Snake and DrawSnakeGamePanel will need to query this, and change it's value
@@ -48,8 +40,8 @@ public class SnakeGame {
 	//1000 milliseconds = 1  second.
 
 	static JFrame snakeFrame;
+//	static JLayeredPane layeredPane;
 	static JPanel optionsPanel;
-	static OptionsGUI optionsGUI;
 	static DrawSnakeGamePanel snakePanel;
 	static SoundPlayer soundPlayer; //for implementation of sound
 
@@ -58,27 +50,59 @@ public class SnakeGame {
 	//http://docs.oracle.com/javase/tutorial/uiswing/painting/step2.html
 
 
+
 	private static void createAndShowGUI() {
+		//The commented out code was an attempt to use JLayeredPanes to implement the OptionsGUI
+		//It did not work, but I left the code in for reference.
+		//The window would just blink in and out of existence.
+		//It is unfortunate because all of my improvements to the code hinged on them being chosen through the GUI
+		//The big issue is trying to implement the panel into an already existing frame. Everything I try does not work.
+
+
 		//Create and set up the window.
 		snakeFrame = new JFrame();
 		snakeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+//		layeredPane = new JLayeredPane();
+		optionsPanel = new JPanel();
+
+		//snakeFrame variables
 		snakeFrame.setSize(xPixelMaxDimension, yPixelMaxDimension);
 		snakeFrame.setUndecorated(true); //hide title bar
-		snakeFrame.setVisible(true);
 		snakeFrame.setResizable(false);
+		snakeFrame.setVisible(true);
+//		snakeFrame.setLayout(new BorderLayout());
+//		snakeFrame.add(layeredPane, BorderLayout.CENTER);
 
+		//new snake game panel
 		snakePanel = new DrawSnakeGamePanel(snake, kibble, score);
 		snakePanel.setFocusable(true);
+		snakePanel.setVisible(true);
 		snakePanel.requestFocusInWindow(); //required to give this component the focus so it can generate KeyEvents
 
+		//options panel
+		optionsPanel.setVisible(false);
+		optionsPanel.setOpaque(true);
+//		optionsPanel.setLayout(null);
+//		optionsPanel.setBounds(0,0,xPixelMaxDimension,yPixelMaxDimension);
 
 		snakeFrame.add(snakePanel);
+//		snakeFrame.add(optionsPanel);
 		snakePanel.addKeyListener(new GameControls(snake));
+//		snakePanel.setBounds(0,0,xPixelMaxDimension,yPixelMaxDimension);
 
+		//add panels to layeredPane
+//		layeredPane.setBounds(0,0,xPixelMaxDimension,yPixelMaxDimension);
+//		layeredPane.add(snakePanel, new Integer(1));
+//		layeredPane.add(optionsPanel, new Integer(2));
+
+		//pack the snake frame
+		snakeFrame.pack();
+		snakeFrame.setLocationRelativeTo(null);
+		snakeFrame.setVisible(true);
+
+		//sound player
 		soundPlayer = new SoundPlayer(); //sound player
-		optionsGUI = new OptionsGUI();  //options gui
-		optionsPanel = new JPanel();
 
 		setGameStage(BEFORE_GAME);
 
@@ -93,15 +117,17 @@ public class SnakeGame {
 		kibble = new Kibble(snake);
 		score = new Score();
 		setSoundsOn(true);
-//		displayOptionsGUI();
 
 		gameStage = BEFORE_GAME;
 	}
 
 	protected static void newGame() {
+
 		Timer timer = new Timer();
 		GameClock clockTick = new GameClock(snake, kibble, score, snakePanel);
 		timer.scheduleAtFixedRate(clockTick, 0 , clockInterval);
+		snakePanel.repaint();
+
 
 	}
 
@@ -116,12 +142,6 @@ public class SnakeGame {
 		});
 	}
 
-	public static void setHardMode(boolean hardMode) {
-		SnakeGame.hardMode = hardMode;
-		SnakeGame.setGameSpeed(200);
-		return;
-
-	}
 
 	public static int getGameStage() {
 		return gameStage;
@@ -147,16 +167,4 @@ public class SnakeGame {
 		return;
 	}
 
-	protected static void displayOptionsGUI(){
-
-		gameStage = PAUSE_MENU;
-		optionsPanel.setFocusable(true);
-		optionsPanel.setOpaque(true);
-		optionsPanel.requestFocusInWindow();
-
-		snakeFrame.add(optionsPanel);
-		snakeFrame.validate();
-		snakeFrame.repaint();
-
-	}
 }
